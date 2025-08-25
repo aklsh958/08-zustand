@@ -1,27 +1,28 @@
-import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
-import { CreateNotePayload } from '../api';
-import { NoteTag } from '@/types/note';
+import { create } from "zustand";
+import type {NewNote} from "../api"
+import { persist } from "zustand/middleware";
 
-export const initialDraft: CreateNotePayload = {
-  title: '',
-  content: '',
-  tag: 'Todo' as NoteTag,
+export interface NoteDraftStore {
+    draft: NewNote,
+    setDraft: (note: NewNote) => void,
+    clearDraft: () => void,
 };
 
-type NoteStore = {
-  draft: CreateNotePayload;
-  setDraft: (note: CreateNotePayload) => void;
-  clearDraft: () => void;
+const initialDraft: NewNote = {
+    title: "",
+    content: "",
+    tag: "Todo",
 };
 
-export const useNoteStore = create<NoteStore>()(
-  persist(
-    (set) => ({
-      draft: initialDraft,
-      setDraft: (note: CreateNotePayload) => set(() => ({ draft: note })),
-      clearDraft: () => set(() => ({ draft: initialDraft })),
-    }),
-    { name: 'notehub-draft', partialize: (state) => ({ draft: state.draft }) }
-  )
+export const useNoteDraftStore = create<NoteDraftStore>()(
+    persist((set) => ({
+    draft: initialDraft,
+    setDraft: (note) => set(() => ({ draft: note })),
+    clearDraft: () => set(() => ({ draft: initialDraft })),
+}),
+    {
+        name: "note-draft",
+        partialize: (state) => ({draft: state.draft})
+    },
+),
 );

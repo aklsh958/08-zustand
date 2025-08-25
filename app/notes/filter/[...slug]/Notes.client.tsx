@@ -10,11 +10,16 @@ import NoteList from "@/components/NoteList/NoteList";
 import css from "./page.module.css"
 import Link from "next/link";
 
+
+
 interface NotesClientProps {
   initialData: FetchNotesResponse;
   tag?: string;
 }
-  export default function NotesClient({initialData, tag}: NotesClientProps) {
+
+export default function NotesClient({initialData, tag}: NotesClientProps) {
+
+
   const [inputValue, setInputValue] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -23,18 +28,25 @@ interface NotesClientProps {
     setSearchQuery(value);
     setCurrentPage(1);
   }, 300);
+
   const handleSearchChange = (value: string) => {
     setInputValue(value);
     updateSearchQuery(value);
   };
+  
   const validTag = tag?.toLowerCase() === "all" ? undefined : tag;
+
+
   const {data, isLoading} = useQuery<FetchNotesResponse>({
     queryKey: ["notes", validTag, currentPage, searchQuery],
     queryFn: () => fetchNotes(currentPage, searchQuery, validTag),
     placeholderData: keepPreviousData,
     initialData,
   })
+
   const totalPages = data?.totalPages ?? 0;
+
+  
   return (
     <div className={css.app}>
 	    <header className={css.toolbar}>
