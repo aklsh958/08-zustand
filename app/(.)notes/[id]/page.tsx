@@ -6,9 +6,11 @@ import {
 } from '@tanstack/react-query';
 import { fetchNoteById } from '@/lib/api';
 
-type Props = { params: { id: string } };
+interface NotePageProps {
+  params: { id: string };
+}
 
-export default async function NotePreviewModal({ params }: Props) {
+export default async function NotePreviewModal({ params }: NotePageProps) {
   const { id } = params;
   const queryClient = new QueryClient();
 
