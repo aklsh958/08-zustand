@@ -34,6 +34,7 @@ export default function NotesClient({ tag }: NotesClientProps) {
   const { data, isLoading } = useQuery<FetchNotesResponse>({
     queryKey: ["notes", validTag ?? null, currentPage, searchQuery],
     queryFn: () => fetchNotes(currentPage, searchQuery, validTag),
+    placeholderData: undefined,
   });
 
   const notes: FetchNotesResponse["notes"] = data?.notes ?? [];
@@ -45,9 +46,9 @@ export default function NotesClient({ tag }: NotesClientProps) {
         <SearchBox value={inputValue} onSearch={handleSearchChange} />
         {totalPagesNumber > 1 && (
           <Pagination
-            totalPages={totalPagesNumber}
-            currentPage={currentPage}
-            setPage={setCurrentPage}
+              totalPages={totalPagesNumber}   
+               currentPage={currentPage}
+               setPage={setCurrentPage}
           />
         )}
         <Link href="/notes/action/create" className={css.button}>

@@ -4,10 +4,10 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "New Note Page",
-  description: "Page for adding a new note",
+  description: "Page for add new note",
   openGraph: {
     title: "New Note Page",
-    description: "Page for adding a new note",
+    description: "Page for add new note",
     url: "https://07-routing-nextjs-one-kappa.vercel.app/notes/action/create",
     images: [
       {
@@ -30,5 +30,4 @@ const CreateNote = () => {
     </main>
   );
 };
-
 export default CreateNote;
