@@ -34,13 +34,11 @@ export default function NotesClient({ tag }: NotesClientProps) {
   const { data, isLoading } = useQuery<FetchNotesResponse>({
     queryKey: ["notes", validTag ?? null, currentPage, searchQuery],
     queryFn: () => fetchNotes(currentPage, searchQuery, validTag),
-    placeholderData: undefined, 
   });
 
   const notes: FetchNotesResponse["notes"] = data?.notes ?? [];
   const totalPagesNumber: number = data?.totalPages ?? 0;
 
-  
   return (
     <div className={css.app}>
       <header className={css.toolbar}>
