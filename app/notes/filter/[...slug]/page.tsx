@@ -1,31 +1,39 @@
-import {
-  HydrationBoundary,
-  dehydrate,
-  QueryClient,
-} from '@tanstack/react-query';
-import { fetchNotes } from '@/lib/api';
-import NotesClient from './Notes.client';
-import { NoteTag } from '@/types/note';
+import {fetchNotes, FetchNotesResponse } from "@/lib/api"
+import NotesClient from "./Notes.client"
+import { Metadata } from "next";
 
-type Props = {
-  params: Promise<{ slug?: string[] }>;
-};
-export default async function NotesPage({ params }: Props) {
-  const { slug } = await params;
-  const res = slug?.[0];
+interface NotesProps {
+    params: Promise<{ slug?: string[] }>;
+}
+export const generateMetadata = async ({params}: NotesProps): Promise<Metadata> => {
+    const { slug } = await params;
+    const tag = slug?.[0] && slug[0].toLowerCase() !== "all" ? slug[0] : undefined;
+    return {
+        title: tag ? `Notes filtered by ${tag}` : "All notes",
+        description: tag ? `Browse notes filtered by the ${tag} tag.`
+            : "Browse all available notes without falters.",
+        openGraph: {
+            title: tag ? `Notes filtered by ${tag}` : "All notes",
+            description: tag ? `Browse notes filtered by the ${tag} tag.`
+                : "Browse all available notes without falters.",
+            url: `https://07-routing-nextjs-one-kappa.vercel.app/notes/filter/All${tag}`,
+            images: [
+                {
+                url: "https://ac.goit.global/fullstack/react/notehub-og-meta.jpg",
+                width: 1200,
+                height: 630,
+                alt: tag,
+             }
+          ]
+       }
+    }
+}
 
-  const tag: NoteTag | undefined =
-    !res || res.toLowerCase() === 'all' ? undefined : (res as NoteTag);
-
-  const queryClient = new QueryClient();
-
-  const initialNotes = await queryClient.fetchQuery({
-    queryKey: ['notes', 1, '', tag ?? 'all'],
-    queryFn: () => fetchNotes({ page: 1, perPage: 12, search: '', tag }),
-  });
-  return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
-      <NotesClient initialNotes={initialNotes} initialTag={tag} />
-    </HydrationBoundary>
-  );
+export default async function Notes({params}: NotesProps) {
+    const { slug } = await params;
+    const tag = slug?.[0] && slug[0].toLowerCase() !== "all" ? slug[0] : undefined;
+    const initialPage = 1;
+    const initialQuery = "";
+    const initialData: FetchNotesResponse = await fetchNotes(initialPage, initialQuery, tag);
+    return <NotesClient initialData={initialData} tag={tag}/>
 }

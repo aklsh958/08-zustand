@@ -1,17 +1,17 @@
-import styles from '@/components/LayoutNotes/LayoutNotes.module.css';
+import css from "./LayoutNotes.module.css"
 
-type Props = {
-  children: React.ReactNode;
-  sidebar: React.ReactNode;
+interface NotesLayoutProps {
+    children: React.ReactNode;
+    sidebar: React.ReactNode;
+}
+const NotesLayout = ({ children, sidebar }: NotesLayoutProps) => {
+    
+
+    return (
+        <section className={css.container}>
+            <aside className={css.sidebar}>{sidebar}</aside>
+            <div className={css.notesWrapper}>{children}</div>
+        </section>
+    );
 };
-
-const NotesLayout = ({ children, sidebar }: Props) => {
-  return (
-    <section className={styles.container}>
-      <aside className={styles.sidebar}>{sidebar}</aside>
-      <div className={styles.notesWrapper}>{children}</div>
-    </section>
-  );
-};
-
 export default NotesLayout;
