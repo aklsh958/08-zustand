@@ -15,7 +15,6 @@ interface NotesClientProps {
 }
 
 export default function NotesClient({ tag }: NotesClientProps) {
-  // 1️⃣ Стан компоненту
   const [inputValue, setInputValue] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -32,25 +31,23 @@ export default function NotesClient({ tag }: NotesClientProps) {
 
   const validTag = tag?.toLowerCase() === "all" ? undefined : tag;
 
-  // 2️⃣ useQuery з типом FetchNotesResponse
   const { data, isLoading } = useQuery<FetchNotesResponse>({
     queryKey: ["notes", validTag ?? null, currentPage, searchQuery],
     queryFn: () => fetchNotes(currentPage, searchQuery, validTag),
-    keepPreviousData: true, // boolean, без імпорту
+    placeholderData: undefined, 
   });
 
-  // 3️⃣ Безпечний fallback для TypeScript
   const notes: FetchNotesResponse["notes"] = data?.notes ?? [];
-  const totalPages: number = data?.totalPages ?? 0;
+  const totalPagesNumber: number = data?.totalPages ?? 0;
 
-  // 4️⃣ JSX рендер
+  
   return (
     <div className={css.app}>
       <header className={css.toolbar}>
         <SearchBox value={inputValue} onSearch={handleSearchChange} />
-        {totalPages > 1 && (
+        {totalPagesNumber > 1 && (
           <Pagination
-            totalPages={totalPages}
+            totalPages={totalPagesNumber}
             currentPage={currentPage}
             setPage={setCurrentPage}
           />
