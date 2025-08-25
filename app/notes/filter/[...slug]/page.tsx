@@ -38,7 +38,11 @@ export const generateMetadata = async ({
   };
 };
 
-export default function Notes({ params }: { params: { slug?: string[] } }) {
+export default function Notes({
+  params,
+}: {
+  params: { slug?: string[] }; 
+}) {
   const slug = params.slug ?? [];
   const tag = slug[0]?.toLowerCase() !== "all" ? slug[0]?.toLowerCase() : undefined;
 
