@@ -3,7 +3,6 @@ import './globals.css';
 import Header from '@/components/Header/Header';
 import Footer from '@/components/Footer/Footer';
 import TanStackProvider from '@/components/TanStackProvider/TanStackProvider';
-import { ModalProvider } from './context/ModalContext'; 
 
 const roboto = Roboto({
   weight: ['400', '500', '700'],
@@ -12,18 +11,20 @@ const roboto = Roboto({
   display: 'swap',
 });
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <body className={roboto.variable}>
         <TanStackProvider>
-          <ModalProvider>
-            <div className="layout">
-              <Header />
-              {children}
-              <Footer />
-            </div>
-          </ModalProvider>
+          <div className="layout">
+            <Header />
+            {children}
+            <Footer />
+          </div>
         </TanStackProvider>
       </body>
     </html>
