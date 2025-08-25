@@ -1,12 +1,11 @@
 import NotesClient from "./Notes.client";
 import { Metadata } from "next";
 
-
-export const generateMetadata = async ({
-  params,
-}: {
+interface PageProps {
   params: { slug?: string[] };
-}): Promise<Metadata> => {
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const slug = params.slug ?? [];
   const tag = slug[0]?.toLowerCase() !== "all" ? slug[0] : undefined;
 
@@ -15,14 +14,15 @@ export const generateMetadata = async ({
     ? `Browse notes filtered by the ${tag} tag.`
     : "Browse all available notes without filters.";
 
-  const urlTagSegment = tag || "all"; 
+  const urlTagSegment = tag || "all";
+
   return {
     title,
     description,
     openGraph: {
       title,
       description,
-      url: `https://07-routing-nextjs-one-kappa.vercel.app/notes/filter/${urlTagSegment}`, 
+      url: `https://07-routing-nextjs-one-kappa.vercel.app/notes/filter/${urlTagSegment}`,
       images: [
         {
           url: "https://ac.goit.global/fullstack/react/notehub-og-meta.jpg",
@@ -33,13 +33,9 @@ export const generateMetadata = async ({
       ],
     },
   };
-};
+}
 
-export default function Notes({
-  params,
-}: {
-  params: { slug?: string[] };
-}) {
+export default function Notes({ params }: PageProps) {
   const slug = params.slug ?? [];
   const tag = slug[0]?.toLowerCase() !== "all" ? slug[0] : undefined;
 
