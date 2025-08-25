@@ -2,8 +2,9 @@ import NotesClient from "./Notes.client";
 import { Metadata } from "next";
 
 interface NotesProps {
-  params: { slug?: string[] };
+  params: { slug?: string[] }; 
 }
+
 
 export const generateMetadata = async ({
   params,
@@ -41,6 +42,7 @@ export const generateMetadata = async ({
     },
   };
 };
+
 
 export default function Notes({ params }: NotesProps) {
   const slug = params.slug ?? [];
