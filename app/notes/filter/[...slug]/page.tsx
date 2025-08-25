@@ -5,8 +5,12 @@ interface NotesProps {
   params: { slug?: string[] };
 }
 
-export const generateMetadata = async ({ params }: NotesProps): Promise<Metadata> => {
-  const { slug } = params; 
+export const generateMetadata = async ({
+  params,
+}: {
+  params: { slug?: string[] };
+}): Promise<Metadata> => {
+  const { slug } = params;
   const tag = slug?.[0] && slug[0].toLowerCase() !== "all" ? slug[0].toLowerCase() : undefined;
 
   const title = tag ? `Notes filtered by ${tag}` : "All notes";
@@ -39,7 +43,7 @@ export const generateMetadata = async ({ params }: NotesProps): Promise<Metadata
 };
 
 export default function Notes({ params }: NotesProps) {
-  const { slug } = params; 
+  const { slug } = params;
   const tag = slug?.[0] && slug[0].toLowerCase() !== "all" ? slug[0].toLowerCase() : undefined;
 
   return <NotesClient tag={tag} />;
