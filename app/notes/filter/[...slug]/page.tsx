@@ -10,8 +10,8 @@ export const generateMetadata = async ({
 }: {
   params: { slug?: string[] };
 }): Promise<Metadata> => {
-  const { slug } = params;
-  const tag = slug?.[0] && slug[0].toLowerCase() !== "all" ? slug[0].toLowerCase() : undefined;
+  const slug = params.slug ?? []; 
+  const tag = slug[0]?.toLowerCase() !== "all" ? slug[0]?.toLowerCase() : undefined;
 
   const title = tag ? `Notes filtered by ${tag}` : "All notes";
   const description = tag
@@ -43,8 +43,8 @@ export const generateMetadata = async ({
 };
 
 export default function Notes({ params }: NotesProps) {
-  const { slug } = params;
-  const tag = slug?.[0] && slug[0].toLowerCase() !== "all" ? slug[0].toLowerCase() : undefined;
+  const slug = params.slug ?? []; 
+  const tag = slug[0]?.toLowerCase() !== "all" ? slug[0]?.toLowerCase() : undefined;
 
   return <NotesClient tag={tag} />;
 }
